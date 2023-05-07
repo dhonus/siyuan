@@ -238,7 +238,6 @@
   "rollback": "Rollback",
   "custom": "Personnalisé",
   "feedback": "Commentaires",
-  "inbox": "Boîte de réception",
   "turnToStatic": "Texte d'ancrage statique",
   "turnToDynamic": "Texte d'ancrage dynamique",
   "sizeLimit": "Limite",

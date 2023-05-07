@@ -261,7 +261,7 @@ const boot = () => {
         icon: path.join(appDir, "stage", "icon-large.png"),
     });
     require("@electron/remote/main").enable(currentWindow.webContents);
-    currentWindow.webContents.userAgent = "SiYuan/" + appVer + " https://b3log.org/siyuan Electron";
+    currentWindow.webContents.userAgent = "SiYuan/" + appVer;
 
     currentWindow.webContents.session.setSpellCheckerLanguages(["en-US"]);
 
@@ -979,7 +979,7 @@ powerMonitor.on("resume", async () => {
         const currentURL = new URL(item.browserWindow.getURL());
         const server = getServer(currentURL.port);
         writeLog("sync after system resume [" + server + "/api/sync/performSync" + "]");
-        fetch(server + "/api/sync/performSync", {method: "POST"});
+        //fetch(server + "/api/sync/performSync", {method: "POST"});
     });
 });
 
