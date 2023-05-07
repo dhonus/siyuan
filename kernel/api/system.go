@@ -160,16 +160,7 @@ func addCustomEmoji(name string, items *[]map[string]interface{}) {
 }
 
 func checkUpdate(c *gin.Context) {
-	ret := gulu.Ret.NewResult()
-	defer c.JSON(http.StatusOK, ret)
-
-	arg, ok := util.JsonArg(c, ret)
-	if !ok {
-		return
-	}
-
-	showMsg := arg["showMsg"].(bool)
-	model.CheckUpdate(showMsg)
+	return;
 }
 
 func exportLog(c *gin.Context) {
@@ -349,13 +340,12 @@ func setGoogleAnalytics(c *gin.Context) {
 	ret := gulu.Ret.NewResult()
 	defer c.JSON(http.StatusOK, ret)
 
-	arg, ok := util.JsonArg(c, ret)
+	_, ok := util.JsonArg(c, ret)
 	if !ok {
 		return
 	}
 
-	googleAnalytics := arg["googleAnalytics"].(bool)
-	model.Conf.System.DisableGoogleAnalytics = !googleAnalytics
+	model.Conf.System.DisableGoogleAnalytics = true
 	model.Conf.Save()
 }
 

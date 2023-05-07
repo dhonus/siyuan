@@ -399,7 +399,6 @@ func RemoveCloudShorthands(ids []string) (err error) {
 		SetSuccessResult(&result).
 		SetCookies(&http.Cookie{Name: "symphony", Value: Conf.User.UserToken}).
 		SetBody(body).
-		Post(util.AliyunServer + "/apis/siyuan/inbox/removeCloudShorthands")
 	if nil != err {
 		logging.LogErrorf("remove cloud shorthands failed: %s", err)
 		err = ErrFailedToConnectCloudServer
@@ -426,7 +425,6 @@ func GetCloudShorthand(id string) (ret map[string]interface{}, err error) {
 	resp, err := request.
 		SetSuccessResult(&result).
 		SetCookies(&http.Cookie{Name: "symphony", Value: Conf.User.UserToken}).
-		Post(util.AliyunServer + "/apis/siyuan/inbox/getCloudShorthand?id=" + id)
 	if nil != err {
 		logging.LogErrorf("get cloud shorthand failed: %s", err)
 		err = ErrFailedToConnectCloudServer
@@ -457,7 +455,6 @@ func GetCloudShorthands(page int) (result map[string]interface{}, err error) {
 	resp, err := request.
 		SetSuccessResult(&result).
 		SetCookies(&http.Cookie{Name: "symphony", Value: Conf.User.UserToken}).
-		Post(util.AliyunServer + "/apis/siyuan/inbox/getCloudShorthands?p=" + strconv.Itoa(page))
 	if nil != err {
 		logging.LogErrorf("get cloud shorthands failed: %s", err)
 		err = ErrFailedToConnectCloudServer

@@ -71,21 +71,6 @@ export class Model {
     }
 
     public send(cmd: string, param: Record<string, unknown>, process = false) {
-        if (!this.ws) { // Inbox 无 ws
-            return;
-        }
-        this.reqId = process ? 0 : new Date().getTime();
-        this.ws.send(JSON.stringify({
-            cmd,
-            reqId: this.reqId,
-            param,
-            // pushMode
-            // 0: 所有应用所有会话广播
-            // 1：自我应用会话单播
-            // 2：非自我会话广播
-            // 4：非自我应用所有会话广播
-            // 5：单个应用内所有会话广播
-            // 6：非自我应用主会话广播
-        }));
+        return
     }
 }

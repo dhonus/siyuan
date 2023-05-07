@@ -38,7 +38,7 @@ export const about = {
         <div class="b3-label__text">${window.siyuan.languages.googleAnalyticsTip}</div>
     </div>
     <div class="fn__space"></div>
-    <input class="b3-switch fn__flex-center" id="googleAnalytics" type="checkbox"${window.siyuan.config.system.disableGoogleAnalytics ? "" : " checked"}>
+    <input class="b3-switch fn__flex-center" id="googleAnalytics" type="checkbox"${window.siyuan.config.system.disableGoogleAnalytics ? "" : ""} disabled>
 </label>
 <label class="b3-label fn__flex">
     <div class="fn__flex-1">
@@ -136,13 +136,7 @@ export const about = {
     </div>
     <div class="fn__space"></div>
     <div class="fn__flex-center fn__size200 config__item-line">
-        <button id="checkUpdateBtn" class="b3-button b3-button--outline fn__block">
-            <svg><use xlink:href="#iconRefresh"></use></svg>${window.siyuan.languages.checkUpdate}
-        </button>
-        <div class="fn__hr${isBrowser() ? "" : " fn__none"}"></div>
-        <button id="menuSafeQuit" class="b3-button b3-button--outline fn__block${(window.webkit?.messageHandlers || window.JSAndroid) ? "" : " fn__none"}">
-            <svg><use xlink:href="#iconQuit"></use></svg>${window.siyuan.languages.safeQuit}
-        </button>
+        <p>Updating DISABLED in custom build</p>
     </div>
 </label>
 <label class="fn__flex config__item  b3-label">

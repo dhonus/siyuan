@@ -173,7 +173,7 @@ func Mount(boxID string) (alreadyMount bool, err error) {
 
 			// 每次打开帮助文档时自动检查版本更新并提醒 https://github.com/siyuan-note/siyuan/issues/5057
 			time.Sleep(time.Second * 10)
-			CheckUpdate(true)
+			//CheckUpdate(true)
 		}()
 	}
 

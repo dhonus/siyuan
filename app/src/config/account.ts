@@ -37,10 +37,6 @@ ${window.siyuan.languages.account8}
 ${window.siyuan.languages.account2}
 <div><a href="https://b3log.org/siyuan/pricing.html" target="_blank">${window.siyuan.languages.account7}</a></div>
 <div class="fn__hr--b"></div>
-<span class="b3-chip b3-chip--primary fn__pointer${(window.siyuan.user && window.siyuan.user.userSiYuanSubscriptionStatus === 2) ? " fn__none" : ""}" id="trialSub">
-    <svg class="ft__secondary"><use xlink:href="#iconVIP"></use></svg>
-    ${window.siyuan.languages.freeSub}
-</span>
 <div class="fn__hr--b"></div>`;
         if (window.siyuan.user) {
             let userTitlesHTML = "";
@@ -121,137 +117,16 @@ ${window.siyuan.languages.account8}`;
 </div></div>`;
         }
         return `<div class="fn__flex config-account">
-<div class="b3-form__space config-account__center">
-    <div class="config-account__form" id="form1">
-        <div class="b3-form__icon">
-            <svg class="b3-form__icon-icon"><use xlink:href="#iconAccount"></use></svg>
-            <input id="userName" class="b3-text-field fn__block b3-form__icon-input" placeholder="${window.siyuan.languages.accountName}">
-        </div>
-        <div class="fn__hr--b"></div>
-        <div class="b3-form__icon">
-            <svg class="b3-form__icon-icon"><use xlink:href="#iconLock"></use></svg>
-            <input type="password" id="userPassword" class="b3-text-field b3-form__icon-input fn__block" placeholder="${window.siyuan.languages.password}">
-        </div>
-        <div class="b3-form__img fn__none">
-            <div class="fn__hr--b"></div>
-            <img id="captchaImg" class="fn__pointer" style="top: 17px">
-            <input id="captcha" class="b3-text-field fn__block" placeholder="${window.siyuan.languages.captcha}">
-        </div>
-        <div class="fn__hr--b"></div>
-        <label class="ft__smaller ft__on-surface fn__flex">
-            <span class="fn__space"></span>
-            <input type="checkbox" class="b3-switch fn__flex-center" id="agreeLogin">
-            <span class="fn__space"></span>
-            <span>${window.siyuan.languages.accountTip}</span>
-        </label>
-        <div class="fn__hr--b"></div>
-        <button id="login" disabled class="b3-button fn__block">${window.siyuan.languages.login}</button>
-        <div class="fn__hr--b"></div>
-        <div class="ft__center">
-            <a href="https://ld246.com/forget-pwd" class="b3-button b3-button--cancel" target="_blank">${window.siyuan.languages.forgetPassword}</a>
-            <span class="fn__space${window.siyuan.config.system.container === "ios" ? " fn__none" : ""}"></span>
-            <a href="https://ld246.com/register" class="b3-button b3-button--cancel${window.siyuan.config.system.container === "ios" ? " fn__none" : ""}" target="_blank">${window.siyuan.languages.register}</a>
-        </div>
-    </div>
-    <div class="fn__none config-account__form" id="form2">
-        <div class="b3-form__icon">
-            <svg class="b3-form__icon-icon"><use xlink:href="#iconLock"></use></svg>
-            <input id="twofactorAuthCode" class="b3-text-field fn__block b3-form__icon-input" placeholder="${window.siyuan.languages.twoFactorCaptcha}">
-        </div>
-        <div class="fn__hr--b"></div>
-        <button id="login2" class="b3-button fn__block">${window.siyuan.languages.login}</button>
-    </div>
-</div>
 <div class="config-account__center config-account__center--text${window.siyuan.config.system.container === "ios" ? " fn__none" : ""}">
     <div class="ft__center">
         ${payHTML}
         <div class="fn__hr--b"></div><div class="fn__hr--b"></div>
     </div>
-</div>
 </div>`;
     },
     bindEvent: (element: Element) => {
-        const trialSubElement = element.querySelector("#trialSub");
-        if (trialSubElement) {
-            trialSubElement.addEventListener("click", () => {
-                fetchPost("/api/account/startFreeTrial", {}, () => {
-                    element.querySelector("#refresh").dispatchEvent(new Event("click"));
-                });
-            });
-        }
         const agreeLoginElement = element.querySelector("#agreeLogin") as HTMLInputElement;
         const userNameElement = element.querySelector("#userName") as HTMLInputElement;
-        if (!userNameElement) {
-            const refreshElement = element.querySelector("#refresh");
-            refreshElement.addEventListener("click", () => {
-                const svgElement = refreshElement.firstElementChild;
-                if (svgElement.classList.contains("fn__rotate")) {
-                    return;
-                }
-                svgElement.classList.add("fn__rotate");
-                fetchPost("/api/setting/getCloudUser", {
-                    token: window.siyuan.user.userToken,
-                }, response => {
-                    window.siyuan.user = response.data;
-                    element.innerHTML = account.genHTML();
-                    account.bindEvent(element);
-                    showMessage(window.siyuan.languages.refreshUser, 3000);
-                    account.onSetaccount();
-                    processSync();
-                });
-            });
-            element.querySelector("#logout").addEventListener("click", () => {
-                fetchPost("/api/setting/logoutCloudUser", {}, () => {
-                    fetchPost("/api/setting/getCloudUser", {}, response => {
-                        window.siyuan.user = response.data;
-                        element.innerHTML = account.genHTML();
-                        account.bindEvent(element);
-                        account.onSetaccount();
-                        processSync();
-                    });
-                });
-            });
-            element.querySelector("#deactivateUser").addEventListener(getEventName(), () => {
-                confirmDialog("⚠️ " + window.siyuan.languages.deactivateUser, window.siyuan.languages.deactivateUserTip, () => {
-                    fetchPost("/api/account/deactivate", {}, () => {
-                        window.siyuan.user = null;
-                        element.innerHTML = account.genHTML();
-                        account.bindEvent(element);
-                        account.onSetaccount();
-                        processSync();
-                    });
-                });
-            });
-            element.querySelectorAll("input[type='checkbox']").forEach(item => {
-                item.addEventListener("change", () => {
-                    fetchPost("/api/setting/setAccount", {
-                        displayTitle: (element.querySelector("#displayTitle") as HTMLInputElement).checked,
-                        displayVIP: (element.querySelector("#displayVIP") as HTMLInputElement).checked,
-                    }, (response) => {
-                        window.siyuan.config.account.displayTitle = response.data.displayTitle;
-                        window.siyuan.config.account.displayVIP = response.data.displayVIP;
-                        account.onSetaccount();
-                    });
-                });
-            });
-            const activationCodeElement = element.querySelector("#activationCode");
-            activationCodeElement.addEventListener("click", () => {
-                const activationCodeInput = (activationCodeElement.previousElementSibling as HTMLInputElement);
-                fetchPost("/api/account/checkActivationcode", {data: activationCodeInput.value}, (response) => {
-                    if (0 !== response.code) {
-                        activationCodeInput.value = "";
-                    }
-                    confirmDialog(window.siyuan.languages.activationCode, response.msg, () => {
-                        if (response.code === 0) {
-                            fetchPost("/api/account/useActivationcode", {data: (activationCodeElement.previousElementSibling as HTMLInputElement).value}, () => {
-                                refreshElement.dispatchEvent(new CustomEvent("click"));
-                            });
-                        }
-                    });
-                });
-            });
-            return;
-        }
 
         const userPasswordElement = element.querySelector("#userPassword") as HTMLInputElement;
         const captchaImgElement = element.querySelector("#captchaImg") as HTMLInputElement;
@@ -259,110 +134,6 @@ ${window.siyuan.languages.account8}`;
         const twofactorAuthCodeElement = element.querySelector("#twofactorAuthCode") as HTMLInputElement;
         const loginBtnElement = element.querySelector("#login") as HTMLButtonElement;
         const login2BtnElement = element.querySelector("#login2") as HTMLButtonElement;
-        agreeLoginElement.addEventListener("click", () => {
-            if (agreeLoginElement.checked) {
-                loginBtnElement.removeAttribute("disabled");
-            } else {
-                loginBtnElement.setAttribute("disabled", "disabled");
-            }
-        });
-        userNameElement.focus();
-        userNameElement.addEventListener("keydown", (event) => {
-            if (event.isComposing) {
-                event.preventDefault();
-                return;
-            }
-            if (event.key === "Enter") {
-                loginBtnElement.click();
-                event.preventDefault();
-            }
-        });
-
-        twofactorAuthCodeElement.addEventListener("keydown", (event) => {
-            if (event.isComposing) {
-                event.preventDefault();
-                return;
-            }
-            if (event.key === "Enter") {
-                login2BtnElement.click();
-                event.preventDefault();
-            }
-        });
-
-        captchaElement.addEventListener("keydown", (event) => {
-            if (event.isComposing) {
-                event.preventDefault();
-                return;
-            }
-            if (event.key === "Enter") {
-                loginBtnElement.click();
-                event.preventDefault();
-            }
-        });
-        userPasswordElement.addEventListener("keydown", (event) => {
-            if (event.isComposing) {
-                event.preventDefault();
-                return;
-            }
-            if (event.key === "Enter") {
-                loginBtnElement.click();
-                event.preventDefault();
-            }
-        });
-        let token: string;
-        let needCaptcha: string;
-        captchaImgElement.addEventListener("click", () => {
-            captchaImgElement.setAttribute("src", `https://ld246.com/captcha/login?needCaptcha=${needCaptcha}&t=${new Date().getTime()}`);
-        });
-        loginBtnElement.addEventListener("click", () => {
-            fetchPost("/api/account/login", {
-                userName: userNameElement.value.replace(/(^\s*)|(\s*$)/g, ""),
-                userPassword: md5(userPasswordElement.value),
-                captcha: captchaElement.value.replace(/(^\s*)|(\s*$)/g, ""),
-            }, (data) => {
-                let messageId;
-                if (data.code === 1) {
-                    messageId = showMessage(data.msg);
-                    if (data.data.needCaptcha) {
-                        // 验证码
-                        needCaptcha = data.data.needCaptcha;
-                        captchaElement.parentElement.classList.remove("fn__none");
-                        captchaElement.previousElementSibling.setAttribute("src",
-                            `https://ld246.com/captcha/login?needCaptcha=${data.data.needCaptcha}`);
-                        captchaElement.value = "";
-                        return;
-                    }
-                    return;
-                }
-                if (data.code === 10) {
-                    // 两步验证
-                    element.querySelector("#form1").classList.add("fn__none");
-                    element.querySelector("#form2").classList.remove("fn__none");
-                    twofactorAuthCodeElement.focus();
-                    token = data.data.token;
-                    return;
-                }
-                hideMessage(messageId);
-                fetchPost("/api/setting/getCloudUser", {
-                    token: data.data.token,
-                }, response => {
-                    account._afterLogin(response, element);
-                });
-            });
-        });
-
-        login2BtnElement.addEventListener("click", () => {
-            fetchPost("/api/setting/login2faCloudUser", {
-                code: twofactorAuthCodeElement.value,
-                token,
-            }, response => {
-                fetchPost("/api/setting/getCloudUser", {
-                    token: response.data.token,
-                }, userResponse => {
-                    account._afterLogin(userResponse, element);
-                });
-            });
-        });
     },
     _afterLogin(userResponse: IWebSocketData, element: Element) {
         window.siyuan.user = userResponse.data;

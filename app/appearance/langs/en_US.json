@@ -238,7 +238,6 @@
   "rollback": "Rollback",
   "custom": "Custom",
   "feedback": "Feedback",
-  "inbox": "Inbox",
   "turnToStatic": "Static anchor text",
   "turnToDynamic": "Dynamic anchor text",
   "sizeLimit": "Limit",

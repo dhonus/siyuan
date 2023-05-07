@@ -17,7 +17,6 @@ import {MobileBookmarks} from "../dock/MobileBookmarks";
 import {MobileTags} from "../dock/MobileTags";
 import {activeBlur, hideKeyboardToolbar, initKeyboardToolbar} from "./keyboardToolbar";
 import {syncGuide} from "../../sync/syncGuide";
-import {Inbox} from "../../layout/dock/Inbox";
 
 export const initFramework = () => {
     setInlineStyle();
@@ -27,7 +26,6 @@ export const initFramework = () => {
     let outline: MobileOutline;
     let backlink: MobileBacklinks;
     let bookmark: MobileBookmarks;
-    let inbox: Inbox;
     let tag: MobileTags;
     // 不能使用 getEventName，否则点击返回会展开右侧栏
     const firstToolbarElement = sidebarElement.querySelector(".toolbar--border");
@@ -73,9 +71,7 @@ export const initFramework = () => {
                     } else {
                         tag.update();
                     }
-                } else if (type === "sidebar-inbox-tab" && !inbox) {
-                    inbox = new Inbox(document.querySelector('#sidebar [data-type="sidebar-inbox"]'));
-                }
+                } 
                 svgElement.classList.add("toolbar__icon--active");
                 sidebarElement.lastElementChild.querySelector(`[data-type="${itemType.replace("-tab", "")}"]`).classList.remove("fn__none");
             } else {

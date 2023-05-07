@@ -51,7 +51,7 @@ export const setPanelFocus = (element: Element) => {
         element.classList.add("layout__wnd--active");
     } else {
         element.classList.add("layout__tab--active");
-        ["file", "inbox", "backlink", "tag", "bookmark", "graph", "globalGraph", "outline"].find(item => {
+        ["file", "backlink", "tag", "bookmark", "graph", "globalGraph", "outline"].find(item => {
             if (element.classList.contains("sy__" + item)) {
                 document.querySelector(`.dock__item[data-type="${item}"]`).classList.add("dock__item--activefocus");
                 return true;
@@ -679,7 +679,7 @@ export const addResize = (obj: Layout | Wnd) => {
         let minSize = 227;
         Array.from(element.querySelectorAll(".file-tree")).find((item) => {
             if (item.classList.contains("sy__backlink") || item.classList.contains("sy__graph")
-                || item.classList.contains("sy__globalGraph") || item.classList.contains("sy__inbox")) {
+                || item.classList.contains("sy__globalGraph")) {
                 if (!item.classList.contains("fn__none") && !hasClosestByClassName(item, "fn__none")) {
                     minSize = 320;
                     return true;

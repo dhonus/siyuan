@@ -1500,8 +1500,7 @@ const panelTreeKeydown = (event: KeyboardEvent) => {
             return true;
         }
     }
-    if (activePanelElement.classList.contains("sy__inbox") ||
-        activePanelElement.classList.contains("sy__globalGraph") ||
+    if (activePanelElement.classList.contains("sy__globalGraph") ||
         activePanelElement.classList.contains("sy__graph")) {
         return false;
     }

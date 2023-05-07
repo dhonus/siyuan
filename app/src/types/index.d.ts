@@ -11,7 +11,6 @@ type TDockType =
     | "globalGraph"
     | "backlink"
     | "backlinkOld"
-    | "inbox"
 type TDockPosition = "Left" | "Right" | "Bottom"
 type TWS = "main" | "filetree" | "protyle"
 type TEditorMode = "preview" | "wysiwyg"

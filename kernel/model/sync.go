@@ -218,6 +218,8 @@ func syncData(exit, byHand bool) {
 }
 
 func checkSync(boot, exit, byHand bool) bool {
+	return false
+	
 	if 2 == Conf.Sync.Mode && !boot && !exit && !byHand { // 手动模式下只有启动和退出进行同步
 		return false
 	}

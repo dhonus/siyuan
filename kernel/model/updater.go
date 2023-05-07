@@ -58,6 +58,7 @@ func execNewVerInstallPkg(newVerInstallPkgPath string) {
 }
 
 func getNewVerInstallPkgPath() string {
+	return "";
 	if skipNewVerInstallPkg() {
 		return ""
 	}
@@ -79,6 +80,7 @@ func getNewVerInstallPkgPath() string {
 var checkDownloadInstallPkgLock = sync.Mutex{}
 
 func checkDownloadInstallPkg() {
+	return;
 	defer logging.Recover()
 
 	if skipNewVerInstallPkg() {
@@ -113,6 +115,7 @@ func checkDownloadInstallPkg() {
 }
 
 func getUpdatePkg() (downloadPkgURLs []string, checksum string, err error) {
+	return
 	defer logging.Recover()
 	result, err := util.GetRhyResult(false)
 	if nil != err {
@@ -151,6 +154,7 @@ func getUpdatePkg() (downloadPkgURLs []string, checksum string, err error) {
 }
 
 func downloadInstallPkg(pkgURL, checksum string) (err error) {
+	return
 	if "" == pkgURL || "" == checksum {
 		return
 	}
@@ -222,6 +226,7 @@ type Announcement struct {
 }
 
 func GetAnnouncements() (ret []*Announcement) {
+	return
 	result, err := util.GetRhyResult(false)
 	if nil != err {
 		logging.LogErrorf("get announcement failed: %s", err)
@@ -245,6 +250,7 @@ func GetAnnouncements() (ret []*Announcement) {
 }
 
 func CheckUpdate(showMsg bool) {
+	return // this func ckecks the update from ui
 	if !showMsg {
 		return
 	}
@@ -283,6 +289,7 @@ func CheckUpdate(showMsg bool) {
 }
 
 func isVersionUpToDate(releaseVer string) bool {
+	return true
 	return ver2num(releaseVer) <= ver2num(util.Ver)
 }
 
