@@ -262,7 +262,10 @@ func checkSync(boot, exit, byHand bool) bool {
 }
 
 // incReindex 增量重建索引。
-func incReindex(upserts, removes []string) {
+func incReindex(upserts, removes []string) (upsertRootIDs, removeRootIDs []string) {
+	upsertRootIDs = []string{}
+	removeRootIDs = []string{}
+
 	util.IncBootProgress(3, "Sync reindexing...")
 	msg := fmt.Sprintf(Conf.Language(35))
 	util.PushStatusBar(msg)
@@ -276,6 +279,7 @@ func incReindex(upserts, removes []string) {
 		}
 
 		id := strings.TrimSuffix(filepath.Base(removeFile), ".sy")
+		removeRootIDs = append(removeRootIDs, id)
 		block := treenode.GetBlockTree(id)
 		if nil != block {
 			msg = fmt.Sprintf(Conf.Language(39), block.RootID)
@@ -318,7 +322,9 @@ func incReindex(upserts, removes []string) {
 		}
 		treenode.IndexBlockTree(tree)
 		sql.UpsertTreeQueue(tree)
+		upsertRootIDs = append(upsertRootIDs, tree.Root.ID)
 	}
+	return
 }
 
 func SetCloudSyncDir(name string) {
